@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/c.css' %}">
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'crops/crops.png' %}" alt="crops">
+    </div>
+    <div class="container">
+        <h1>Welcome to Your Dashboard</h1>
+        {% if user.is_authenticated %}
+            <p>Hello, {{ user.username }}!</p>
+            <h2>Available Crops{% if region %} in {{ region }}{% endif %}</h2>
+            <div class="crops-list">
+                {% if crops %}
+                    {% for crop in crops %}
+                        <div class="crop-item">
+                            <img src="{% static crop.image %}" alt="{{ crop.name }}">
+                            <h3>{{ crop.name }}</h3>
+                            <p>Region: {{ crop.region }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No crops available.</p>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>Please <a href="{% url 'login' %}">log in</a> to see your dashboard.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
